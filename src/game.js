@@ -1,5 +1,5 @@
-import { init, GameLoop } from 'lib/kontra.min.js'
-import MainScene from './scenes/main'
+import { init, GameLoop } from '../lib/kontra.min.mjs'
+import MainScene from './scenes/main.js'
 
 const { canvas } = init()
 
