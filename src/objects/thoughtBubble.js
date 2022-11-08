@@ -1,6 +1,6 @@
 import { init, Sprite } from '../../lib/kontra.min.mjs'
 
-const { canvas } = init()
+init()
 
 const thoughtBubble = Sprite({
   x: 540,

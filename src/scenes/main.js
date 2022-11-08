@@ -1,15 +1,15 @@
 import { init, Scene } from '../../lib/kontra.min.mjs'
 import Friend from '../objects/friend.js'
 import Player from '../objects/player.js'
-// import Sentence from '../objects/sentence.js'
+import Sentence from '../objects/sentence.js'
 import ThoughtBubble from '../objects/thoughtBubble.js'
-// import Word from '../objects/word.js'
+import Words from '../objects/words.js'
 
 const { canvas } = init()
 
 const scene = Scene({
   id: 'main',
-  objects: [Friend, Player, ThoughtBubble],
+  objects: [Friend, Player, ThoughtBubble, ...Sentence, ...Words],
 })
 
 export default scene

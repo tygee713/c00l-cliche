@@ -1,6 +1,6 @@
 import { init, Sprite } from '../../lib/kontra.min.mjs'
 
-const { canvas } = init()
+init()
 
 const friend = Sprite({
   x: 450,
