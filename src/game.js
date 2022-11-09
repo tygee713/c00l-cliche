@@ -1,35 +1,36 @@
 import { init, GameLoop } from '../lib/kontra.min.mjs'
+import StartScene from './scenes/start.js'
 import MainScene from './scenes/main.js'
-import Sentence from './objects/sentence.js'
+import EndScene from './scenes/end.js'
 
 const { canvas } = init()
 
-let currentScene = 0
+let currentScene = MainScene
 
 // Moves from the intro scene to the main scene and resets the round number
 // Called when user presses the start button on the initial scene
 const startGame = () => {
-  currentScene = 1
+  currentScene = MainScene
 }
 
 // Moves from the main scene to the ending scene
 // Called when the time runs out or all the sentences have been completed
 const endGame = () => {
-  currentScene = 2
+  currentScene = EndScene
 }
 
 // Goes back to the starting scene
 // Called when the user presses the try again button on the ending scene
 const restartGame = () => {
-  currentScene = 0
+  currentScene = StartScene
 }
 
 const loop = GameLoop({
   update: (dt) => {
-    MainScene.update()
+    currentScene.update(dt)
   },
   render: () => {
-    MainScene.render()
+    currentScene.render()
   }
 })
 
