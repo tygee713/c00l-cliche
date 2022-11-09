@@ -11,7 +11,7 @@ let yPosition = 500
 // if dynamic creation doesn't work, create a const file with an array of positions
 
 const createSentence = (sentence) => {
-  return sentence.split(" ").map((word, i) => {
+  return sentence.split(' ').map((word, i) => {
     if (!ignored.includes(word)) {
       // render a box sprite with a width relative to # of chars in the word
       return Button({
