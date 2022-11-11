@@ -9,20 +9,21 @@ let currentScene = null
 
 // Moves from the intro scene to the main scene and resets the round number
 // Called when user presses the start button on the initial scene
-const startGame = () => {
+export const startGame = () => {
   currentScene = MainScene
   currentScene.show()
 }
 
 // Moves from the main scene to the ending scene
 // Called when the time runs out or all the sentences have been completed
-const endGame = () => {
-  currentScene = EndScene
+export const endGame = () => {
+  alert('game over')
+  // currentScene = EndScene
 }
 
 // Goes back to the starting scene
 // Called when the user presses the try again button on the ending scene
-const restartGame = () => {
+export const restartGame = () => {
   currentScene = StartScene
 }
 
