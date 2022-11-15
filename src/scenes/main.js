@@ -1,9 +1,9 @@
 import { init, Scene } from '../../lib/kontra.min.mjs'
 import Friend from '../objects/friend.js'
 import Player from '../objects/player.js'
-import Sentence from '../objects/sentence.js'
 import ThoughtBubble from '../objects/thoughtBubble.js'
-import WordBank from '../objects/wordBank.js'
+import createSentence from '../objects/sentence.js'
+import createWords from '../objects/wordBank.js'
 import { endGame } from '../game.js'
 
 const { canvas } = init()
@@ -13,7 +13,7 @@ const ignoredWords = ['is', 'a']
 // if dynamic creation doesn't work, create a const file with an array of positions
 const sentences = ['This is a test']
 
-const scene = Scene({
+const createScene = () => Scene({
   id: 'main',
   objects: [Friend, Player, ThoughtBubble],
   currentSentenceWords: [],
@@ -22,6 +22,7 @@ const scene = Scene({
   filledInWords: [],
   numCorrect: 0,
   numIncorrect: 0,
+  timeLeft: 20,
   selectedSentenceWordIndex: null,
   selectedWordBankIndex: null,
   onShow: function() {
@@ -40,8 +41,8 @@ const scene = Scene({
         wordsToAdd.push(word)
       }
     })
-    this.currentSentenceWords = Sentence(sentences[this.roundNumber])
-    this.currentWords = WordBank(wordsToAdd)
+    this.currentSentenceWords = createSentence(sentences[this.roundNumber], this)
+    this.currentWords = createWords(wordsToAdd, this)
     this.add([...this.currentSentenceWords, ...this.currentWords])
   },
   completeSentence: function() {
@@ -49,6 +50,7 @@ const scene = Scene({
     // Called when all of the words are filled in
     if (this.filledInWords.join(' ') == sentences[this.roundNumber]) {
       this.numCorrect++
+      this.timeLeft += 5
     } else {
       this.numIncorrect++
     }
@@ -87,6 +89,21 @@ const scene = Scene({
     this.filledInWords[sentenceIndex] = ""
     this.currentWords[wordIndex].hidden = false
   },
+  update: function(dt) {
+    let previousTimeLeft = this.timeLeft
+    this.timeLeft -= dt
+    if (previousTimeLeft >= 15 && timeLeft <= 15) {
+      // update player image emarrassed lvl 1
+    } else if (previousTimeLeft >= 10 && timeLeft <= 10) {
+      // update player image emarrassed lvl 2
+    } else if (previousTimeLeft >= 5 && timeLeft <= 5) {
+      // update player image emarrassed lvl 3
+    } else if (timeLeft <= 0) {
+      endGame()
+    }
+
+    this.objects.forEach((obj) => obj.update(dt))
+  },
 })
 
-export default scene
+export default createScene

@@ -1,5 +1,4 @@
 import { init, initPointer, Button } from '../../lib/kontra.min.mjs'
-import MainScene from '../scenes/main.js'
 
 init()
 initPointer()
@@ -9,7 +8,7 @@ const PIXELS_PER_LETTER = 7
 let xPosition = 400
 let yPosition = 600
 
-const words = (sampleWords) => sampleWords.map((word, i) => {
+const createWords = (sampleWords, scene) => sampleWords.map((word, i) => {
   const x = xPosition
   xPosition += 100
   const width = (word.length + 1) * PIXELS_PER_LETTER
@@ -31,10 +30,10 @@ const words = (sampleWords) => sampleWords.map((word, i) => {
       anchor: { x: 0.5, y: 0.5 },
     },
     onDown: function() {
-      MainScene.selectedWordBankIndex = this.index
+      scene.selectedWordBankIndex = this.index
     },
     update: function() {
-      if (MainScene.selectedWordBankIndex == this.index) {
+      if (scene.selectedWordBankIndex == this.index) {
         this.color = 'green'
       } else {
         this.color = 'black'
@@ -43,4 +42,4 @@ const words = (sampleWords) => sampleWords.map((word, i) => {
   })
 })
 
-export default words
+export default createWords

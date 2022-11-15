@@ -1,5 +1,4 @@
 import { init, initPointer, Text, Button } from '../../lib/kontra.min.mjs'
-import MainScene from '../scenes/main.js'
 
 init()
 initPointer()
@@ -9,7 +8,7 @@ const ignored = ['is', 'a']
 let xPosition = 300
 let yPosition = 500
 
-const createSentence = (sentence) => {
+const createSentence = (sentence, scene) => {
   return sentence.split(' ').map((word, i) => {
     if (!ignored.includes(word)) {
       // render a box sprite with a width relative to # of chars in the word
@@ -30,22 +29,22 @@ const createSentence = (sentence) => {
         },
         onDown: function() {
           if (!this.disabled) {
-            MainScene.selectedSentenceWordIndex = this.index
+            scene.selectedSentenceWordIndex = this.index
           }
         },
         update: function() {
-          let selectedSentenceWordIndex = MainScene.selectedSentenceWordIndex
+          let selectedSentenceWordIndex = scene.selectedSentenceWordIndex
           if (selectedSentenceWordIndex == this.index) {
             this.color = 'green'
           } else {
             this.color = 'black'
           }
 
-          let selectedWordIndex = MainScene.selectedWordBankIndex
+          let selectedWordIndex = scene.selectedWordBankIndex
           // if any words in the word bank are selected, call fillInWord
           if (selectedSentenceWordIndex == this.index && selectedWordIndex !== null) {
-            let word = MainScene.currentWords[selectedWordIndex].word
-            MainScene.fillInWord(word, selectedSentenceWordIndex, selectedWordIndex)
+            let word = scene.currentWords[selectedWordIndex].word
+            scene.fillInWord(word, selectedSentenceWordIndex, selectedWordIndex)
           }
         }
       })

@@ -1,6 +1,6 @@
 import { init, GameLoop } from '../lib/kontra.min.mjs'
 // import StartScene from './scenes/start.js'
-import MainScene from './scenes/main.js'
+import createMainScene from './scenes/main.js'
 // import EndScene from './scenes/end.js'
 
 const { canvas } = init()
@@ -10,7 +10,7 @@ let currentScene = null
 // Moves from the intro scene to the main scene and resets the round number
 // Called when user presses the start button on the initial scene
 export const startGame = () => {
-  currentScene = MainScene
+  currentScene = createMainScene()
   currentScene.show()
 }
 
