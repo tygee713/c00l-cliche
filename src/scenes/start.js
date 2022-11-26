@@ -6,7 +6,7 @@ initPointer()
 
 const player = Sprite({
   x: 600,
-  y: canvas.height / 2,
+  y: canvas.height / 2 - 50,
   x: 280,
   width: 400,
   height: 400,
@@ -14,34 +14,27 @@ const player = Sprite({
 })
 
 let image = new Image()
-// TODO: use real image
-image.src = 'assets/alien.png'
+image.src = 'assets/cliche_intro.png'
 image.onload = function() {
   player.image = image
 }
 
 const titleBox = Sprite({
-  x: 620,
-  y: 126,
-  width: 300,
-  height: 120,
+  x: 591,
+  y: 80,
+  width: 357,
+  height: 196,
   color: "#392E2D"
 })
 
 const title = Text({
-  x: 770,
-  y: 186,
+  x: titleBox.x + 36 + 36,
+  y: titleBox.y + 11,
   textAlign: 'center',
-  anchor: { x: 0.5, y: 0.5 },
-  text: 'TITLE',
+  text: 'c00l\ncliche',
   font: 'bold 87px Anonymous Pro',
   color: '#83C80B'
 })
-
-// let f = new FontFace("Anonymous Pro", "url(https://fonts.googleapis.com/css2?family=Anonymous+Pro)")
-// f.load().then(() => {
-//   title.font = '87px "Anonymous Pro"'
-// })
 
 const textBox = Sprite({
   x: 540,
@@ -86,11 +79,14 @@ const startButton = Button({
     anchor: { x: 0.5, y: 0.5 },
   },
   onDown: function() {
-    this.color = '#F37DB0'
-  },
-  onUp: function() {
-    this.color = '#83C80B'
     showMainScene()
+  },
+  update: function() {
+    if (this.hovered) {
+      this.color = '#F37DB0'
+    } else {
+      this.color = '#83C80B'
+    }
   }
 })
 
