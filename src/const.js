@@ -2,7 +2,7 @@ export const sentences = [
   {
     parts: ['Armchair', 'psychiatrist'],
     emptyPositions: [1],
-    options: ['quarterback', 'chef', 'doctor', 'psychiatrist']
+    options: ['comedian', 'chef', 'doctor', 'psychiatrist']
   },
   {
     parts: ['Fits like a', 'glove'],

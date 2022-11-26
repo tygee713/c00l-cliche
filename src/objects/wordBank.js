@@ -3,11 +3,11 @@ import { init, initPointer, Button } from '../../lib/kontra.min.mjs'
 init()
 initPointer()
 
-let xPosition = 188
+let xPosition = 100
 let yPosition = 738
 
 const createWords = (options, scene) => {
-  xPosition = 188
+  xPosition = 100
   
   return options.map((word, i) => {
     if (i !== 0) xPosition += 180
@@ -19,6 +19,7 @@ const createWords = (options, scene) => {
       color: '#E5E4E0',
       index: i,
       word,
+      disabled: false,
       anchor: { x: 0.5, y: 0.5 },
       text: {
         text: word,

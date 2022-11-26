@@ -57,22 +57,24 @@ const createScene = () => Scene({
   filledInWords: [],
   numCorrect: 0,
   numIncorrect: 0,
-  timeLeft: 20,
+  timeLeft: 6,
   selectedSentenceWordIndex: null,
   selectedWordBankIndex: null,
   onShow: function() {
     this.showNextSentence()
   },
-  resetScene: function() {
+  reset: function() {
     this.currentSentenceWords = []
     this.currentWords = []
     this.roundNumber = 0
     this.filledInWords = []
     this.numCorrect = 0
     this.numIncorrect = 0
-    this.timeLeft = 20
+    this.timeLeft = 6
     this.selectedSentenceWordIndex = null
     this.selectedWordBankIndex = null
+
+    this.objects.forEach((obj) => obj.reset && obj.reset())
   },
   showNextSentence: function() {
     // Gets the next sentence in the list and creates the word bank
@@ -88,18 +90,25 @@ const createScene = () => Scene({
         this.filledInWords[i] = part
       }
     })
+
+    this.selectedSentenceWordIndex = null
+    this.selectedWordBankIndex = null
     this.currentSentenceWords = createSentence(sentence, this)
     this.currentWords = createWords(sentence.options, this)
     this.add([...this.currentSentenceWords, ...this.currentWords])
+    this.timeLeft = 6
   },
   completeSentence: function() {
     // Determine if the filled in sentence is correct
     // Called when all of the words are filled in
-    if (this.filledInWords.join(' ') == sentences[this.roundNumber].parts.join(' ').toLowerCase) {
+    if (this.filledInWords.join(' ').toLowerCase() == sentences[this.roundNumber].parts.join(' ').toLowerCase()) {
       this.numCorrect++
-      this.timeLeft += 5
+      SpeechBubble.changeResponse('correct')
+      Friend.changeResponse('correct')
     } else {
       this.numIncorrect++
+      SpeechBubble.changeResponse('incorrect')
+      Friend.changeResponse('incorrect')
     }
     
     if (this.roundNumber < sentences.length - 1) {
@@ -116,6 +125,7 @@ const createScene = () => Scene({
 
     // TODO: figure out how to hide button completely
     this.currentWords[wordIndex].opacity = 0
+    this.currentWords[wordIndex].disabled = true
   
     // De-select all words
     this.selectedSentenceWordIndex = null
@@ -136,16 +146,14 @@ const createScene = () => Scene({
     this.currentWords[wordIndex].hidden = false
   },
   update: function(dt) {
+    console.log(this.timeLeft)
     let previousTimeLeft = this.timeLeft
     this.timeLeft -= dt
-    if (previousTimeLeft >= 15 && this.timeLeft <= 15) {
-      // update player image emarrassed lvl 1
-    } else if (previousTimeLeft >= 10 && this.timeLeft <= 10) {
-      // update player image emarrassed lvl 2
-    } else if (previousTimeLeft >= 5 && this.timeLeft <= 5) {
-      // update player image emarrassed lvl 3
-    } else if (this.timeLeft <= 0) {
-      // endGame()
+    if (previousTimeLeft > 3 && this.timeLeft <= 3) {
+      SpeechBubble.changeResponse('confused')
+      Friend.changeResponse('confused')
+    } else if (previousTimeLeft > 0 && this.timeLeft <= 0) {
+      this.completeSentence()
     }
 
     this.objects.forEach((obj) => obj.update(dt))

@@ -33,6 +33,7 @@ export const showMainScene = () => {
     currentScene.destroy()
   }
   currentScene = createMainScene()
+  currentScene.reset()
   currentScene.show()
 }
 
