@@ -57,7 +57,7 @@ const createScene = () => Scene({
   filledInWords: [],
   numCorrect: 0,
   numIncorrect: 0,
-  timeLeft: 6,
+  timeLeft: 7,
   selectedSentenceWordIndex: null,
   selectedWordBankIndex: null,
   onShow: function() {
@@ -70,7 +70,7 @@ const createScene = () => Scene({
     this.filledInWords = []
     this.numCorrect = 0
     this.numIncorrect = 0
-    this.timeLeft = 6
+    this.timeLeft = 7
     this.selectedSentenceWordIndex = null
     this.selectedWordBankIndex = null
 
@@ -96,7 +96,7 @@ const createScene = () => Scene({
     this.currentSentenceWords = createSentence(sentence, this)
     this.currentWords = createWords(sentence.options, this)
     this.add([...this.currentSentenceWords, ...this.currentWords])
-    this.timeLeft = 6
+    this.timeLeft = 7
   },
   completeSentence: function() {
     // Determine if the filled in sentence is correct
@@ -105,10 +105,12 @@ const createScene = () => Scene({
       this.numCorrect++
       SpeechBubble.changeResponse('correct')
       Friend.changeResponse('correct')
+      Player.changeResponse('correct')
     } else {
       this.numIncorrect++
       SpeechBubble.changeResponse('incorrect')
       Friend.changeResponse('incorrect')
+      Player.changeResponse('incorrect')
     }
     
     if (this.roundNumber < sentences.length - 1) {
@@ -149,9 +151,14 @@ const createScene = () => Scene({
     console.log(this.timeLeft)
     let previousTimeLeft = this.timeLeft
     this.timeLeft -= dt
-    if (previousTimeLeft > 3 && this.timeLeft <= 3) {
+    if (previousTimeLeft > 5 && this.timeLeft <= 5) {
+      SpeechBubble.changeResponse()
+      Friend.changeResponse()
+      Player.changeResponse()
+    } else if (previousTimeLeft > 3 && this.timeLeft <= 3) {
       SpeechBubble.changeResponse('confused')
       Friend.changeResponse('confused')
+      Player.changeResponse('confused')
     } else if (previousTimeLeft > 0 && this.timeLeft <= 0) {
       this.completeSentence()
     }
