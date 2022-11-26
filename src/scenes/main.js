@@ -1,21 +1,46 @@
-import { init, Scene } from '../../lib/kontra.min.mjs'
+import { init, initPointer, Scene, Button } from '../../lib/kontra.min.mjs'
 import Friend from '../objects/friend.js'
 import Player from '../objects/player.js'
 import ThoughtBubble from '../objects/thoughtBubble.js'
 import createSentence from '../objects/sentence.js'
 import createWords from '../objects/wordBank.js'
-import { endGame } from '../game.js'
+import { showEndScene } from '../game.js'
 
 const { canvas } = init()
+initPointer()
 
 const ignoredWords = ['is', 'a']
 
 // if dynamic creation doesn't work, create a const file with an array of positions
 const sentences = ['This is a test']
 
+//TODO: Remove outside of test env
+const endButton = Button({
+  x: canvas.width,
+  y: canvas.height,
+  width: 293,
+  height: 66,
+  anchor: { x: 1, y: 1 },
+  color: '#83C80B',
+  text: {
+    text: 'END GAME',
+    color: '#392E2D',
+    font: '48px Anonymous Pro',
+    textAlign: 'center',
+    anchor: { x: 0.5, y: 0.5 },
+  },
+  onDown: function() {
+    this.color = '#F37DB0'
+  },
+  onUp: function() {
+    this.color = '#83C80B'
+    showEndScene()
+  }
+})
+
 const createScene = () => Scene({
   id: 'main',
-  objects: [Friend, Player, ThoughtBubble],
+  objects: [Friend, Player, ThoughtBubble, endButton],
   currentSentenceWords: [],
   currentWords: [],
   roundNumber: 0,
@@ -27,6 +52,17 @@ const createScene = () => Scene({
   selectedWordBankIndex: null,
   onShow: function() {
     this.showNextSentence()
+  },
+  resetScene: function() {
+    this.currentSentenceWords = []
+    this.currentWords = []
+    this.roundNumber = 0
+    this.filledInWords = []
+    this.numCorrect = 0
+    this.numIncorrect = 0
+    this.timeLeft = 20
+    this.selectedSentenceWordIndex = null
+    this.selectedWordBankIndex = null
   },
   showNextSentence: function() {
     // Gets the next sentence in the list and creates the word bank
@@ -59,7 +95,7 @@ const createScene = () => Scene({
       this.roundNumber++
       this.showNextSentence()
     } else {
-      endGame()
+      showEndScene()
     }
   },
   fillInWord: function(word, sentenceIndex, wordIndex) {
@@ -92,14 +128,14 @@ const createScene = () => Scene({
   update: function(dt) {
     let previousTimeLeft = this.timeLeft
     this.timeLeft -= dt
-    if (previousTimeLeft >= 15 && timeLeft <= 15) {
+    if (previousTimeLeft >= 15 && this.timeLeft <= 15) {
       // update player image emarrassed lvl 1
-    } else if (previousTimeLeft >= 10 && timeLeft <= 10) {
+    } else if (previousTimeLeft >= 10 && this.timeLeft <= 10) {
       // update player image emarrassed lvl 2
-    } else if (previousTimeLeft >= 5 && timeLeft <= 5) {
+    } else if (previousTimeLeft >= 5 && this.timeLeft <= 5) {
       // update player image emarrassed lvl 3
-    } else if (timeLeft <= 0) {
-      endGame()
+    } else if (this.timeLeft <= 0) {
+      // endGame()
     }
 
     this.objects.forEach((obj) => obj.update(dt))

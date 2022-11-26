@@ -9,6 +9,9 @@ let xPosition = 300
 let yPosition = 500
 
 const createSentence = (sentence, scene) => {
+  xPosition = 300
+  yPosition = 500
+
   return sentence.split(' ').map((word, i) => {
     if (!ignored.includes(word)) {
       // render a box sprite with a width relative to # of chars in the word
@@ -23,7 +26,7 @@ const createSentence = (sentence, scene) => {
         word,
         anchor: { x: 0.5, y: 0.5 },
         text: {
-          font: '16px Arial',
+          font: '16px Anonymous Pro',
           color: 'white',
           anchor: { x: 0.5, y: 0.5 },
         },
@@ -54,7 +57,7 @@ const createSentence = (sentence, scene) => {
         y: yPosition,
         text: word,
         color: 'white',
-        font: '16px Arial',
+        font: '16px Anonymous Pro',
         textAlign: 'center',
         anchor: { x: 0.5, y: 0.5 },
       })
