@@ -3,31 +3,29 @@ import { init, initPointer, Text, Button } from '../../lib/kontra.min.mjs'
 init()
 initPointer()
 
-const PIXELS_PER_LETTER = 7
-const ignored = ['is', 'a']
-let xPosition = 300
-let yPosition = 500
+let xPosition = 152
+let yPosition = 627
 
 const createSentence = (sentence, scene) => {
-  xPosition = 300
-  yPosition = 500
+  xPosition = 152
 
-  return sentence.split(' ').map((word, i) => {
-    if (!ignored.includes(word)) {
-      // render a box sprite with a width relative to # of chars in the word
+  parts = sentence.parts
+  emptyPositions = sentence.emptyPositions
+
+  return parts.map((word, i) => {
+    if (emptyPositions.includes(i)) {
       return Button({
-        x: xPosition += (word.length + 2) * PIXELS_PER_LETTER,
+        x: xPosition += 186,
         y: yPosition,
-        width: (word.length + 1) * PIXELS_PER_LETTER,
-        height: 16,
-        color: 'black',
+        width: 170,
+        height: 61,
+        color: '#E5E4E0',
         index: i,
         disabled: false,
         word,
-        anchor: { x: 0.5, y: 0.5 },
         text: {
-          font: '16px Anonymous Pro',
-          color: 'white',
+          font: '22px Anonymous Pro',
+          color: '#392E2D',
           anchor: { x: 0.5, y: 0.5 },
         },
         onDown: function() {
@@ -38,9 +36,9 @@ const createSentence = (sentence, scene) => {
         update: function() {
           let selectedSentenceWordIndex = scene.selectedSentenceWordIndex
           if (selectedSentenceWordIndex == this.index) {
-            this.color = 'green'
+            this.color = '#F37DB0'
           } else {
-            this.color = 'black'
+            this.color = '#E5E4E0'
           }
 
           let selectedWordIndex = scene.selectedWordBankIndex
@@ -56,8 +54,8 @@ const createSentence = (sentence, scene) => {
         x: xPosition += (word.length + 1) * PIXELS_PER_LETTER,
         y: yPosition,
         text: word,
-        color: 'white',
-        font: '16px Anonymous Pro',
+        color: '#392E2D',
+        font: '32px Anonymous Pro',
         textAlign: 'center',
         anchor: { x: 0.5, y: 0.5 },
       })
