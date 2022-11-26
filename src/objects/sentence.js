@@ -3,19 +3,22 @@ import { init, initPointer, Text, Button } from '../../lib/kontra.min.mjs'
 init()
 initPointer()
 
+const PIXELS_PER_LETTER = 18
 let xPosition = 152
 let yPosition = 627
 
 const createSentence = (sentence, scene) => {
   xPosition = 152
 
-  parts = sentence.parts
-  emptyPositions = sentence.emptyPositions
+  let parts = sentence?.parts || []
+  let emptyPositions = sentence?.emptyPositions || []
 
   return parts.map((word, i) => {
     if (emptyPositions.includes(i)) {
+      let x = xPosition
+      xPosition += 186
       return Button({
-        x: xPosition += 186,
+        x,
         y: yPosition,
         width: 170,
         height: 61,
@@ -24,9 +27,8 @@ const createSentence = (sentence, scene) => {
         disabled: false,
         word,
         text: {
-          font: '22px Anonymous Pro',
+          font: 'bold 22px Anonymous Pro',
           color: '#392E2D',
-          anchor: { x: 0.5, y: 0.5 },
         },
         onDown: function() {
           if (!this.disabled) {
@@ -50,14 +52,15 @@ const createSentence = (sentence, scene) => {
         }
       })
     } else {
+      let x = xPosition
+      xPosition += (word.length + 1) * PIXELS_PER_LETTER
       return Text({
-        x: xPosition += (word.length + 1) * PIXELS_PER_LETTER,
-        y: yPosition,
+        x,
+        y: yPosition + 13,
         text: word,
         color: '#392E2D',
-        font: '32px Anonymous Pro',
+        font: 'bold 32px Anonymous Pro',
         textAlign: 'center',
-        anchor: { x: 0.5, y: 0.5 },
       })
     }   
   })

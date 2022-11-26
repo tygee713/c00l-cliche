@@ -5,14 +5,10 @@ import ThoughtBubble from '../objects/thoughtBubble.js'
 import createSentence from '../objects/sentence.js'
 import createWords from '../objects/wordBank.js'
 import { showEndScene } from '../game.js'
+import { sentences } from '../const.js'
 
 const { canvas } = init()
 initPointer()
-
-const ignoredWords = ['is', 'a']
-
-// if dynamic creation doesn't work, create a const file with an array of positions
-const sentences = ['This is a test']
 
 //TODO: Remove outside of test env
 const endButton = Button({
@@ -67,24 +63,25 @@ const createScene = () => Scene({
   showNextSentence: function() {
     // Gets the next sentence in the list and creates the word bank
     // Called after the sentence is completed or the time runs out
-    let wordsToAdd = []
+    this.remove(this.currentSentenceWords)
+    this.remove(this.currentWords)
 
-    sentences[this.roundNumber].split(' ').forEach((word, i) => {
-      if (ignoredWords.includes(word)) {
-        this.filledInWords[i] = word
-      } else {
+    let sentence = sentences[this.roundNumber]
+    sentence.parts.forEach((part, i) => {
+      if (sentence.emptyPositions.includes(i)) {
         this.filledInWords[i] = ''
-        wordsToAdd.push(word)
+      } else {
+        this.filledInWords[i] = part
       }
     })
-    this.currentSentenceWords = createSentence(sentences[this.roundNumber], this)
-    this.currentWords = createWords(wordsToAdd, this)
+    this.currentSentenceWords = createSentence(sentence, this)
+    this.currentWords = createWords(sentence.options, this)
     this.add([...this.currentSentenceWords, ...this.currentWords])
   },
   completeSentence: function() {
     // Determine if the filled in sentence is correct
     // Called when all of the words are filled in
-    if (this.filledInWords.join(' ') == sentences[this.roundNumber]) {
+    if (this.filledInWords.join(' ') == sentences[this.roundNumber].parts.join(' ').toLowerCase) {
       this.numCorrect++
       this.timeLeft += 5
     } else {
@@ -104,8 +101,7 @@ const createScene = () => Scene({
     this.filledInWords[sentenceIndex] = word
 
     // TODO: figure out how to hide button completely
-    this.currentWords[wordIndex].width = 0
-    this.currentWords[wordIndex].height = 0
+    this.currentWords[wordIndex].opacity = 0
   
     // De-select all words
     this.selectedSentenceWordIndex = null
