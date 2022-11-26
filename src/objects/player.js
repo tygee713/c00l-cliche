@@ -3,15 +3,14 @@ import { init, Sprite } from '../../lib/kontra.min.mjs'
 init()
 
 const player = Sprite({
-  x: 600,
-  y: 300,
-  width: 400,
-  height: 400,
-  anchor: { x: 0.5, y: 0.5 },
+  x: 631,
+  y: 75,
+  width: 449,
+  height: 800
 })
 
 let image = new Image()
-image.src = 'assets/alien.png'
+image.src = 'assets/guy_neutral.png'
 image.onload = function() {
   player.image = image
 }

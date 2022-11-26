@@ -1,6 +1,7 @@
-import { init, initPointer, Scene, Button } from '../../lib/kontra.min.mjs'
+import { init, initPointer, Button, Scene, Sprite } from '../../lib/kontra.min.mjs'
 import Friend from '../objects/friend.js'
 import Player from '../objects/player.js'
+import SpeechBubble from '../objects/speechBubble.js'
 import ThoughtBubble from '../objects/thoughtBubble.js'
 import createSentence from '../objects/sentence.js'
 import createWords from '../objects/wordBank.js'
@@ -9,6 +10,19 @@ import { sentences } from '../const.js'
 
 const { canvas } = init()
 initPointer()
+
+const background = Sprite({
+  x: 0,
+  y: 0,
+  width: canvas.width,
+  height: canvas.height
+})
+
+let image = new Image()
+image.src = 'assets/background.png'
+image.onload = function() {
+  background.image = image
+}
 
 //TODO: Remove outside of test env
 const endButton = Button({
@@ -36,7 +50,7 @@ const endButton = Button({
 
 const createScene = () => Scene({
   id: 'main',
-  objects: [Friend, Player, ThoughtBubble, endButton],
+  objects: [background, Friend, Player, SpeechBubble, ThoughtBubble, endButton],
   currentSentenceWords: [],
   currentWords: [],
   roundNumber: 0,

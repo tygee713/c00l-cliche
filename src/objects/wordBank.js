@@ -3,16 +3,16 @@ import { init, initPointer, Button } from '../../lib/kontra.min.mjs'
 init()
 initPointer()
 
-let xPosition = 150
+let xPosition = 188
 let yPosition = 738
 
 const createWords = (options, scene) => {
-  xPosition = 150
+  xPosition = 188
   
   return options.map((word, i) => {
     if (i !== 0) xPosition += 180
     return Button({
-      x: xPosition,
+      x: xPosition + 84,
       y: yPosition,
       width: 168,
       height: 47,

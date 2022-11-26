@@ -1,4 +1,4 @@
-import { init, initPointer, Text, Button } from '../../lib/kontra.min.mjs'
+import { init, initPointer, Button, Text } from '../../lib/kontra.min.mjs'
 
 init()
 initPointer()
