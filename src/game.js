@@ -33,18 +33,17 @@ export const showMainScene = () => {
     currentScene.destroy()
   }
   currentScene = createMainScene()
-  currentScene.reset()
   currentScene.show()
 }
 
 // Moves from the main scene to the ending scene
 // Called when the time runs out or all the sentences have been completed
-export const showEndScene = () => {
+export const showEndScene = (win) => {
   if (currentScene) {
     currentScene.hide()
     currentScene.destroy()
   }
-  currentScene = createEndScene()
+  currentScene = createEndScene(win)
   currentScene.show()
 }
 

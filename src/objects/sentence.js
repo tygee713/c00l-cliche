@@ -4,11 +4,11 @@ init()
 initPointer()
 
 const PIXELS_PER_LETTER = 18
-let xPosition = 152
+let xPosition = 130
 let yPosition = 627
 
 const createSentence = (sentence, scene) => {
-  xPosition = 152
+  xPosition = 130
 
   let parts = sentence?.parts || []
   let emptyPositions = sentence?.emptyPositions || []
@@ -27,8 +27,11 @@ const createSentence = (sentence, scene) => {
         disabled: false,
         word,
         text: {
+          x: 85,
+          y: 30.5,
           font: 'bold 22px Anonymous Pro',
           color: '#392E2D',
+          anchor: { x: 0.5, y: 0.5 }
         },
         onDown: function() {
           if (!this.disabled) {

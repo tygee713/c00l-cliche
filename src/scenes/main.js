@@ -44,7 +44,7 @@ const endButton = Button({
   },
   onUp: function() {
     this.color = '#83C80B'
-    showEndScene()
+    showEndScene(true)
   }
 })
 
@@ -61,9 +61,6 @@ const createScene = () => Scene({
   selectedSentenceWordIndex: null,
   selectedWordBankIndex: null,
   onShow: function() {
-    this.showNextSentence()
-  },
-  reset: function() {
     this.currentSentenceWords = []
     this.currentWords = []
     this.roundNumber = 0
@@ -75,12 +72,15 @@ const createScene = () => Scene({
     this.selectedWordBankIndex = null
 
     this.objects.forEach((obj) => obj.reset && obj.reset())
+
+    this.showNextSentence()
   },
   showNextSentence: function() {
     // Gets the next sentence in the list and creates the word bank
     // Called after the sentence is completed or the time runs out
     this.remove(this.currentSentenceWords)
     this.remove(this.currentWords)
+    this.filledInWords = []
 
     let sentence = sentences[this.roundNumber]
     sentence.parts.forEach((part, i) => {
@@ -117,7 +117,7 @@ const createScene = () => Scene({
       this.roundNumber++
       this.showNextSentence()
     } else {
-      showEndScene()
+      showEndScene(this.numCorrect >= 7)
     }
   },
   fillInWord: function(word, sentenceIndex, wordIndex) {
