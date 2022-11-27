@@ -3,7 +3,6 @@ import { init, initPointer, Button, Text } from '../../lib/kontra.min.mjs'
 init()
 initPointer()
 
-const PIXELS_PER_LETTER = 18
 let xPosition = 0
 
 const createSentence = (sentence, scene) => {

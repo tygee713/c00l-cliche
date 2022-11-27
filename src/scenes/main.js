@@ -30,33 +30,9 @@ image.onload = function() {
   background.image = image
 }
 
-//TODO: Remove outside of test env
-const endButton = Button({
-  x: canvas.width,
-  y: canvas.height,
-  width: 293,
-  height: 66,
-  anchor: { x: 1, y: 1 },
-  color: '#83C80B',
-  text: {
-    text: 'END GAME',
-    color: '#392E2D',
-    font: '48px Anonymous Pro',
-    textAlign: 'center',
-    anchor: { x: 0.5, y: 0.5 },
-  },
-  onDown: function() {
-    this.color = '#F37DB0'
-  },
-  onUp: function() {
-    this.color = '#83C80B'
-    showEndScene(true)
-  }
-})
-
 const createScene = () => Scene({
   id: 'main',
-  objects: [background, Friend, Player, SpeechBubble, ThoughtBubble, endButton],
+  objects: [background, Friend, Player, SpeechBubble, ThoughtBubble],
   currentSentenceWords: [],
   currentWords: [],
   roundNumber: 0,
