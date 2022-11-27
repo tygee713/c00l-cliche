@@ -103,9 +103,9 @@ const createScene = () => Scene({
     this.selectedWordBankIndex = null
     this.currentSentenceWords = createSentence(sentence, this)
     this.currentWords = createWords(sentence.options, this)
-    this.sentenceObject = createSentenceObject(this.currentSentenceWords)
-    this.sentenceObject.x = -this.sentenceObject.width / 2
-    ThoughtBubble.addChild(this.sentenceObject)
+    let sentenceObject = createSentenceObject(this.currentSentenceWords)
+    sentenceObject.x = -sentenceObject.width / 2
+    ThoughtBubble.addChild(sentenceObject)
     this.add([...this.currentWords])
     this.timeLeft = 8
     SpeechBubble.changeResponse()
@@ -130,6 +130,7 @@ const createScene = () => Scene({
     // Mark individual choices correct or incorrect
     
     this.timeSinceAnswered = 0
+    this.currentWords.forEach((word) => word.disabled = true)
   },
   fillInWord: function(word, sentenceIndex, wordIndex) {
     // Changes the void in the sentence with the word that was selected

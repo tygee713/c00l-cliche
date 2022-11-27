@@ -39,14 +39,14 @@ export const sentences = [
     emptyPositions: [1, 3],
     options: ['squirrels', 'llamas', 'diarrhea', 'a cold', 'dogs', 'fleas']
   },
-  // {
-  //   parts: ['So', 'quiet', 'you could hear a', 'pin', 'drop'],
-  //   emptyPositions: [1, 3, 4],
-  //   options: []
-  // },
-  // {
-  //   parts: [],
-  //   emptyPositions: [],
-  //   options: []
-  // }
+  {
+    parts: ['So', 'quiet', 'you could hear a', 'pin', 'drop'],
+    emptyPositions: [1, 3, 4],
+    options: ['quiet', 'pin', 'drop', 'cloudy', 'tooth', 'shine']
+  },
+  {
+    parts: ['No use', 'crying', 'over', 'spilled', 'milk'],
+    emptyPositions: [1, 3, 4],
+    options: ['steak', 'wet', 'screaming', 'crying', 'spilled', 'milk']
+  }
 ]
