@@ -93,7 +93,8 @@ const createScene = () => Scene({
   completeSentence: function() {
     // Determine if the filled in sentence is correct
     // Called when all of the words are filled in
-    if (this.filledInWords.join(' ').toLowerCase() == sentences[this.roundNumber].parts.join(' ').toLowerCase()) {
+    let sentence = sentences[this.roundNumber]
+    if (this.filledInWords.join(' ').toLowerCase() == sentence.parts.join(' ').toLowerCase()) {
       this.numCorrect++
       SpeechBubble.changeResponse('correct')
       Friend.changeResponse('correct')
@@ -106,9 +107,19 @@ const createScene = () => Scene({
     }
 
     // Mark individual choices correct or incorrect
+    this.currentSentenceWords.forEach((word, i) => {
+      if (sentence.emptyPositions.includes(i)) {
+        if (this.filledInWords[i].toLowerCase() === sentence.parts[i].toLowerCase()) {
+          word.color = '#D7F5A3'
+        } else {
+          word.color = '#F0B1A3'
+        }
+      }
+    })
     
     this.timeSinceAnswered = 0
     this.currentWords.forEach((word) => word.disabled = true)
+    this.currentSentenceWords.forEach((sentenceWord) => sentenceWord.disabled = true)
     TimerBar.pause()
   },
   fillInWord: function(word, sentenceIndex, wordIndex) {
@@ -119,6 +130,7 @@ const createScene = () => Scene({
     // TODO: figure out how to hide button completely
     this.currentWords[wordIndex].opacity = 0
     this.currentWords[wordIndex].disabled = true
+    this.currentWords[wordIndex].textNode.opacity = 0
   
     // De-select all words
     this.selectedSentenceWordIndex = null
@@ -126,7 +138,7 @@ const createScene = () => Scene({
 
     // Set the text of the word button in the sentence to the selected word
     this.currentSentenceWords[sentenceIndex].textNode.text = word
-    this.currentSentenceWords[sentenceIndex].color = 'black'
+    this.currentSentenceWords[sentenceIndex].color = '#E5E4E0'
     this.currentSentenceWords[sentenceIndex].disabled = true
 
     // If all words have been filled in, complete the sentence

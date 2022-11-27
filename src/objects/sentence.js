@@ -37,14 +37,18 @@ const createSentence = (sentence, scene) => {
         },
         update: function() {
           let selectedSentenceWordIndex = scene.selectedSentenceWordIndex
-          if (selectedSentenceWordIndex == this.index) {
-            this.color = '#F37DB0'
-          } else {
-            this.color = '#E5E4E0'
+          let selectedWordIndex = scene.selectedWordBankIndex
+
+          if (!this.disabled) {
+            if (selectedSentenceWordIndex === this.index || this.hovered) {
+              this.color = '#F37DB0'
+            } else {
+              this.color = '#E5E4E0'
+            }
           }
 
-          let selectedWordIndex = scene.selectedWordBankIndex
           // if any words in the word bank are selected, call fillInWord
+          // TODO: move all this logic into the main scene if possible
           if (selectedSentenceWordIndex == this.index && selectedWordIndex !== null) {
             let word = scene.currentWords[selectedWordIndex].word
             scene.fillInWord(word, selectedSentenceWordIndex, selectedWordIndex)

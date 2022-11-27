@@ -7,8 +7,10 @@ let xPosition = 120
 let yPosition = 738
 
 const createWords = (options, scene) => {
+  // TODO: change this to be truly centered
   xPosition = options.length === 4 ? 260 : 140
   
+  // Randomize the order of the word bank before creating a button for each option
   return options.sort(() => Math.random() - 0.5).map((word, i) => {
     if (i !== 0) xPosition += 136
     return Button({
@@ -31,10 +33,12 @@ const createWords = (options, scene) => {
         scene.selectedWordBankIndex = this.index
       },
       update: function() {
-        if (scene.selectedWordBankIndex == this.index || this.hovered) {
-          this.color = '#F37DB0'
-        } else {
-          this.color = '#E5E4E0'
+        if (!this.disabled) {
+          if (scene.selectedWordBankIndex == this.index || this.hovered) {
+            this.color = '#F37DB0'
+          } else {
+            this.color = '#E5E4E0'
+          }
         }
       }
     })

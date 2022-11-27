@@ -12,15 +12,15 @@ const sparkle1 = Sprite({
   height: 61,
   x: 307,
   y: 194,
-  // timeElapsed: 0,
-  // update: function(dt) {
-  //   this.timeElapsed += dt
-  //   if (this.timeElapsed % 1 < .2 || this.timeElapsed % 1 > .7) {
-  //     this.y -= 0.5
-  //   } else {
-  //     this.y += 0.5
-  //   }
-  // }
+  timeElapsed: 0,
+  update: function(dt) {
+    this.timeElapsed += dt
+    if (this.timeElapsed % 1 < .2 || this.timeElapsed % 1 > .7) {
+      this.y -= 0.5
+    } else {
+      this.y += 0.5
+    }
+  }
 })
 
 const sparkle2 = Sprite({
@@ -28,15 +28,15 @@ const sparkle2 = Sprite({
   height: 126,
   x: 63,
   y: 99,
-  // timeElapsed: 0,
-  // update: function(dt) {
-  //   this.timeElapsed += dt
-  //   if (this.timeElapsed % 1 < .3 || this.timeElapsed % 1 > .8) {
-  //     this.y -= 0.5
-  //   } else {
-  //     this.y += 0.5
-  //   }
-  // }
+  timeElapsed: 0,
+  update: function(dt) {
+    this.timeElapsed += dt
+    if (this.timeElapsed % 1 < .5) {
+      this.y -= 0.5
+    } else {
+      this.y += 0.5
+    }
+  }
 })
 
 const sparkle3 = Sprite({
@@ -44,15 +44,15 @@ const sparkle3 = Sprite({
   height: 126,
   x: 267,
   y: 214,
-  // timeElapsed: 0,
-  // update: function(dt) {
-  //   this.timeElapsed += dt
-  //   if (this.timeElapsed % 1 < .3 || this.timeElapsed % 1 > .8) {
-  //     this.y -= 0.5
-  //   } else {
-  //     this.y += 0.5
-  //   }
-  // }
+  timeElapsed: 0,
+  update: function(dt) {
+    this.timeElapsed += dt
+    if (this.timeElapsed % 1 < .3 || this.timeElapsed % 1 > .8) {
+      this.y += 0.5
+    } else {
+      this.y -= 0.5
+    }
+  }
 })
 
 const player = Sprite({
