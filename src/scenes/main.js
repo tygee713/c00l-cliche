@@ -1,4 +1,4 @@
-import { init, initPointer, Button, Scene, Sprite } from '../../lib/kontra.min.mjs'
+import { init, initPointer, Button, Scene, Sprite, GameObject } from '../../lib/kontra.min.mjs'
 import Friend from '../objects/friend.js'
 import Player from '../objects/player.js'
 import SpeechBubble from '../objects/speechBubble.js'
@@ -16,6 +16,12 @@ const background = Sprite({
   y: 0,
   width: canvas.width,
   height: canvas.height
+})
+
+const createSentenceObject = (sentenceWords) => GameObject({
+  y: 209,
+  width: sentenceWords.reduce((total, word) => word.width + total, 0) + ((sentenceWords.length - 1) * 16),
+  children: sentenceWords,
 })
 
 let image = new Image()
@@ -57,7 +63,8 @@ const createScene = () => Scene({
   filledInWords: [],
   numCorrect: 0,
   numIncorrect: 0,
-  timeLeft: 7,
+  timeLeft: 8,
+  timeSinceAnswered: null,
   selectedSentenceWordIndex: null,
   selectedWordBankIndex: null,
   onShow: function() {
@@ -67,7 +74,8 @@ const createScene = () => Scene({
     this.filledInWords = []
     this.numCorrect = 0
     this.numIncorrect = 0
-    this.timeLeft = 7
+    this.timeLeft = 8
+    this.timeSinceAnswered = null
     this.selectedSentenceWordIndex = null
     this.selectedWordBankIndex = null
 
@@ -78,7 +86,7 @@ const createScene = () => Scene({
   showNextSentence: function() {
     // Gets the next sentence in the list and creates the word bank
     // Called after the sentence is completed or the time runs out
-    this.remove(this.currentSentenceWords)
+    ThoughtBubble.removeChild(ThoughtBubble.children)
     this.remove(this.currentWords)
     this.filledInWords = []
 
@@ -95,8 +103,14 @@ const createScene = () => Scene({
     this.selectedWordBankIndex = null
     this.currentSentenceWords = createSentence(sentence, this)
     this.currentWords = createWords(sentence.options, this)
-    this.add([...this.currentSentenceWords, ...this.currentWords])
-    this.timeLeft = 7
+    this.sentenceObject = createSentenceObject(this.currentSentenceWords)
+    this.sentenceObject.x = -this.sentenceObject.width / 2
+    ThoughtBubble.addChild(this.sentenceObject)
+    this.add([...this.currentWords])
+    this.timeLeft = 8
+    SpeechBubble.changeResponse()
+    Friend.changeResponse()
+    Player.changeResponse()
   },
   completeSentence: function() {
     // Determine if the filled in sentence is correct
@@ -112,13 +126,10 @@ const createScene = () => Scene({
       Friend.changeResponse('incorrect')
       Player.changeResponse('incorrect')
     }
+
+    // Mark individual choices correct or incorrect
     
-    if (this.roundNumber < sentences.length - 1) {
-      this.roundNumber++
-      this.showNextSentence()
-    } else {
-      showEndScene(this.numCorrect >= 7)
-    }
+    this.timeSinceAnswered = 0
   },
   fillInWord: function(word, sentenceIndex, wordIndex) {
     // Changes the void in the sentence with the word that was selected
@@ -148,19 +159,28 @@ const createScene = () => Scene({
     this.currentWords[wordIndex].hidden = false
   },
   update: function(dt) {
-    console.log(this.timeLeft)
-    let previousTimeLeft = this.timeLeft
-    this.timeLeft -= dt
-    if (previousTimeLeft > 5 && this.timeLeft <= 5) {
-      SpeechBubble.changeResponse()
-      Friend.changeResponse()
-      Player.changeResponse()
-    } else if (previousTimeLeft > 3 && this.timeLeft <= 3) {
-      SpeechBubble.changeResponse('confused')
-      Friend.changeResponse('confused')
-      Player.changeResponse('confused')
-    } else if (previousTimeLeft > 0 && this.timeLeft <= 0) {
-      this.completeSentence()
+    if (this.timeSinceAnswered !== null) {
+      this.timeSinceAnswered += dt
+
+      if (this.timeSinceAnswered > 2) {
+        this.timeSinceAnswered = null
+        if (this.roundNumber < sentences.length - 1) {
+          this.roundNumber++
+          this.showNextSentence()
+        } else {
+          showEndScene(this.numCorrect >= 7)
+        }
+      }
+    } else {
+      let previousTimeLeft = this.timeLeft
+      this.timeLeft -= dt
+      if (previousTimeLeft > 4 && this.timeLeft <= 4) {
+        SpeechBubble.changeResponse('confused')
+        Friend.changeResponse('confused')
+        Player.changeResponse('confused')
+      } else if (previousTimeLeft > 0 && this.timeLeft <= 0) {
+        this.completeSentence()
+      }
     }
 
     this.objects.forEach((obj) => obj.update(dt))

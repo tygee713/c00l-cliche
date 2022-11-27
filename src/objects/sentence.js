@@ -4,11 +4,10 @@ init()
 initPointer()
 
 const PIXELS_PER_LETTER = 18
-let xPosition = 130
-let yPosition = 627
+let xPosition = 0
 
 const createSentence = (sentence, scene) => {
-  xPosition = 130
+  xPosition = 0
 
   let parts = sentence?.parts || []
   let emptyPositions = sentence?.emptyPositions || []
@@ -16,20 +15,19 @@ const createSentence = (sentence, scene) => {
   return parts.map((word, i) => {
     if (emptyPositions.includes(i)) {
       let x = xPosition
-      xPosition += 186
+      xPosition += 181
       return Button({
         x,
-        y: yPosition,
         width: 170,
-        height: 61,
+        height: 55,
         color: '#E5E4E0',
         index: i,
         disabled: false,
         word,
+        anchor: { x: 0, y: 0.5 },
         text: {
           x: 85,
-          y: 30.5,
-          font: 'bold 22px Anonymous Pro',
+          font: 'bold 24px Anonymous Pro',
           color: '#392E2D',
           anchor: { x: 0.5, y: 0.5 }
         },
@@ -56,15 +54,16 @@ const createSentence = (sentence, scene) => {
       })
     } else {
       let x = xPosition
-      xPosition += (word.length + 1) * PIXELS_PER_LETTER
-      return Text({
+      let text = Text({
         x,
-        y: yPosition + 13,
         text: word,
         color: '#392E2D',
-        font: 'bold 32px Anonymous Pro',
+        font: 'bold 24px Anonymous Pro',
         textAlign: 'center',
+        anchor: { x: 0, y: 0.5 }
       })
+      xPosition += text.width + 16
+      return text
     }   
   })
 }
