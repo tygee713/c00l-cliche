@@ -1,4 +1,4 @@
-import { init, Scene, Sprite } from '../../lib/kontra.min.mjs'
+import { init, Sprite } from '../../lib/kontra.min.mjs'
 
 init()
 

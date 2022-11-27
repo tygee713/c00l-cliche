@@ -2,6 +2,7 @@ import { init, initPointer, Button, Scene, Sprite, GameObject } from '../../lib/
 import Friend from '../objects/friend.js'
 import Player from '../objects/player.js'
 import SpeechBubble from '../objects/speechBubble.js'
+import TimerBar from '../objects/timerBar.js'
 import ThoughtBubble from '../objects/thoughtBubble.js'
 import createSentence from '../objects/sentence.js'
 import createWords from '../objects/wordBank.js'
@@ -32,7 +33,7 @@ image.onload = function() {
 
 const createScene = () => Scene({
   id: 'main',
-  objects: [background, Friend, Player, SpeechBubble, ThoughtBubble],
+  objects: [background, Friend, Player, SpeechBubble, ThoughtBubble, TimerBar],
   currentSentenceWords: [],
   currentWords: [],
   roundNumber: 0,
@@ -87,6 +88,7 @@ const createScene = () => Scene({
     SpeechBubble.changeResponse()
     Friend.changeResponse()
     Player.changeResponse()
+    TimerBar.reset()
   },
   completeSentence: function() {
     // Determine if the filled in sentence is correct
@@ -107,6 +109,7 @@ const createScene = () => Scene({
     
     this.timeSinceAnswered = 0
     this.currentWords.forEach((word) => word.disabled = true)
+    TimerBar.pause()
   },
   fillInWord: function(word, sentenceIndex, wordIndex) {
     // Changes the void in the sentence with the word that was selected
