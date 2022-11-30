@@ -1,4 +1,4 @@
-import { init, initPointer, Button, Scene, Sprite, GameObject } from '../../lib/kontra.min.mjs'
+import { audioAssets, init, initPointer, loadAudio, Scene, Sprite, GameObject } from '../../lib/kontra.min.mjs'
 import Friend from '../objects/friend.js'
 import Player from '../objects/player.js'
 import SpeechBubble from '../objects/speechBubble.js'
@@ -30,6 +30,20 @@ image.src = 'assets/background.png'
 image.onload = function() {
   background.image = image
 }
+
+let correctSound = null
+loadAudio([
+  '/assets/cliche_correct_answer.mp3'
+]).then(() => {
+  correctSound = audioAssets['/assets/cliche_correct_answer']
+})
+
+let incorrectSound = null
+loadAudio([
+  '/assets/cliche_incorrect_answer.mp3'
+]).then(() => {
+  incorrectSound = audioAssets['/assets/cliche_incorrect_answer']
+})
 
 const createScene = () => Scene({
   id: 'main',
@@ -95,11 +109,19 @@ const createScene = () => Scene({
     // Called when all of the words are filled in
     let sentence = sentences[this.roundNumber]
     if (this.filledInWords.join(' ').toLowerCase() == sentence.parts.join(' ').toLowerCase()) {
+      if (correctSound) {
+        correctSound.currentTime = 0
+        correctSound.play()
+      }
       this.numCorrect++
       SpeechBubble.changeResponse('correct')
       Friend.changeResponse('correct')
       Player.changeResponse('correct')
     } else {
+      if (incorrectSound) {
+        incorrectSound.currentTime = 0
+        incorrectSound.play()
+      }
       this.numIncorrect++
       SpeechBubble.changeResponse('incorrect')
       Friend.changeResponse('incorrect')

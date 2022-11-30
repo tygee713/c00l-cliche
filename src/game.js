@@ -1,4 +1,4 @@
-import { init, GameLoop } from '../lib/kontra.min.mjs'
+import { audioAssets, init, loadAudio, GameLoop } from '../lib/kontra.min.mjs'
 import createStartScene from './scenes/start.js'
 import createMainScene from './scenes/main.js'
 import createEndScene from './scenes/end.js'
@@ -6,11 +6,29 @@ import createEndScene from './scenes/end.js'
 const { canvas } = init()
 
 let currentScene = null
+let audio = null
 
 WebFont.load({
   google: {
     families: ['Anonymous Pro:n7']
   },
+})
+
+loadAudio([
+  '/assets/wallpaper.mp3'
+]).then(() => {
+  audio = audioAssets['/assets/wallpaper']
+  audio.addEventListener('canplaythrough', () => {
+    audio.play()
+  })
+  audio.addEventListener('ended', () => {
+    audio.currentTime = 0
+    audio.play()
+  })
+})
+
+loadAudio(['/assets/cliche_selection.mp3']).then(() => {
+  audioAssets['/assets/cliche_selection'].volume = 0.1
 })
 
 // Goes to the intro scene
@@ -46,8 +64,6 @@ export const showEndScene = (win) => {
   currentScene = createEndScene(win)
   currentScene.show()
 }
-
-
 
 const loop = GameLoop({
   update: (dt) => {
