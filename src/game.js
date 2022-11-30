@@ -26,6 +26,8 @@ loadAudio([
     audio.play()
   })
 })
+loadAudio(['assets/cliche_correct_answer.mp3'])
+loadAudio(['assets/cliche_incorrect_answer.mp3'])
 
 // Goes to the intro scene
 // Called when the game begins

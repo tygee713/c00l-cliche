@@ -31,20 +31,6 @@ image.onload = function() {
   background.image = image
 }
 
-let correctSound = null
-loadAudio([
-  'assets/cliche_correct_answer.mp3'
-]).then(() => {
-  correctSound = audioAssets['assets/cliche_correct_answer']
-})
-
-let incorrectSound = null
-loadAudio([
-  'assets/cliche_incorrect_answer.mp3'
-]).then(() => {
-  incorrectSound = audioAssets['assets/cliche_incorrect_answer']
-})
-
 const createScene = () => Scene({
   id: 'main',
   objects: [background, Friend, Player, SpeechBubble, ThoughtBubble, TimerBar],
@@ -109,18 +95,18 @@ const createScene = () => Scene({
     // Called when all of the words are filled in
     let sentence = sentences[this.roundNumber]
     if (this.filledInWords.join(' ').toLowerCase() == sentence.parts.join(' ').toLowerCase()) {
-      if (correctSound) {
-        correctSound.currentTime = 0
-        correctSound.play()
+      if (audioAssets['assets/cliche_correct_answer.mp3']) {
+        audioAssets['assets/cliche_correct_answer.mp3'].currentTime = 0
+        audioAssets['assets/cliche_correct_answer.mp3'].play()
       }
       this.numCorrect++
       SpeechBubble.changeResponse('correct')
       Friend.changeResponse('correct')
       Player.changeResponse('correct')
     } else {
-      if (incorrectSound) {
-        incorrectSound.currentTime = 0
-        incorrectSound.play()
+      if (audioAssets['assets/cliche_incorrect_answer.mp3']) {
+        audioAssets['assets/cliche_incorrect_answer.mp3'].currentTime = 0
+        audioAssets['assets/cliche_incorrect_answer.mp3'].play()
       }
       this.numIncorrect++
       SpeechBubble.changeResponse('incorrect')
