@@ -15,9 +15,9 @@ WebFont.load({
 })
 
 loadAudio([
-  '/assets/wallpaper.mp3'
+  'assets/wallpaper.mp3'
 ]).then(() => {
-  audio = audioAssets['/assets/wallpaper']
+  audio = audioAssets['assets/wallpaper']
   audio.addEventListener('canplaythrough', () => {
     audio.play()
   })
@@ -25,10 +25,6 @@ loadAudio([
     audio.currentTime = 0
     audio.play()
   })
-})
-
-loadAudio(['/assets/cliche_selection.mp3']).then(() => {
-  audioAssets['/assets/cliche_selection'].volume = 0.1
 })
 
 // Goes to the intro scene

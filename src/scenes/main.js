@@ -33,16 +33,16 @@ image.onload = function() {
 
 let correctSound = null
 loadAudio([
-  '/assets/cliche_correct_answer.mp3'
+  'assets/cliche_correct_answer.mp3'
 ]).then(() => {
-  correctSound = audioAssets['/assets/cliche_correct_answer']
+  correctSound = audioAssets['assets/cliche_correct_answer']
 })
 
 let incorrectSound = null
 loadAudio([
-  '/assets/cliche_incorrect_answer.mp3'
+  'assets/cliche_incorrect_answer.mp3'
 ]).then(() => {
-  incorrectSound = audioAssets['/assets/cliche_incorrect_answer']
+  incorrectSound = audioAssets['assets/cliche_incorrect_answer']
 })
 
 const createScene = () => Scene({
